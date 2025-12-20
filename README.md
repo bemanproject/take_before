@@ -4,7 +4,10 @@
 SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 -->
 
-![Library Status](https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg) ![Standard Target](https://github.com/bemanproject/beman/blob/main/images/badges/cpp29.svg)
+![Library Status](https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg)
+[![Continuous Integration Tests](https://github.com/bemanproject/take_before/actions/workflows/ci_tests.yml/badge.svg)](https://github.com/bemanproject/take_before/actions/workflows/ci_tests.yml)
+[![Lint Check (pre-commit)](https://github.com/bemanproject/take_before/actions/workflows/pre-commit-check.yml/badge.svg)](https://github.com/bemanproject/take_before/actions/workflows/pre-commit-check.yml)
+![Standard Target](https://github.com/bemanproject/beman/blob/main/images/badges/cpp29.svg)
 
 `beman.take_before` is a C++ library implementing the `views::take_before` range adaptor as proposed in [P3220R2](https://wg21.link/P3220R2), conforming to [The Beman Standard](https://github.com/bemanproject/beman/blob/main/docs/beman_standard.md).
 
