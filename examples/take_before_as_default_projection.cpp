@@ -15,9 +15,9 @@ namespace btb = beman::take_before;
 
 int main() {
     const std::string text = "Hello, world! Stop here.";
-    
+
     std::cout << "Full string: " << text << '\n';
-    
+
     std::cout << "Take before '!': ";
     for (char c : text | btb::views::take_before('!')) {
         std::cout << c;

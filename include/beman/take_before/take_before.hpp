@@ -23,11 +23,9 @@ using maybe_const = std::conditional_t<Const, const T, T>;
 
 // [range.utility.helpers] simple-view - exposition only
 template <class R>
-concept simple_view =
-    std::ranges::view<R> &&
-    std::ranges::range<const R> &&
-    std::same_as<std::ranges::iterator_t<R>, std::ranges::iterator_t<const R>> &&
-    std::same_as<std::ranges::sentinel_t<R>, std::ranges::sentinel_t<const R>>;
+concept simple_view = std::ranges::view<R> && std::ranges::range<const R> &&
+                      std::same_as<std::ranges::iterator_t<R>, std::ranges::iterator_t<const R>> &&
+                      std::same_as<std::ranges::sentinel_t<R>, std::ranges::sentinel_t<const R>>;
 
 // ============================================================================
 // tidy-obj concept for borrowed range optimization
@@ -36,9 +34,7 @@ concept simple_view =
 // [range.take.before], take before view
 template <class T>
 constexpr bool tidy_obj = // exposition only
-    std::is_empty_v<T> &&
-    std::is_trivially_default_constructible_v<T> &&
-    std::is_trivially_destructible_v<T>;
+    std::is_empty_v<T> && std::is_trivially_default_constructible_v<T> && std::is_trivially_destructible_v<T>;
 
 // Using std::optional as a substitute for movable-box in this implementation.
 template <typename T>
@@ -55,10 +51,10 @@ class take_before_view : public std::ranges::view_interface<take_before_view<V, 
     template <bool>
     class sentinel; // exposition only
 
-    V base_ = V();               // exposition only
-    movable_box<T> value_;       // exposition only
+    V              base_ = V(); // exposition only
+    movable_box<T> value_;      // exposition only
 
-public:
+  public:
     take_before_view()
         requires std::default_initializable<V> && std::default_initializable<T>
     = default;
@@ -67,8 +63,7 @@ public:
         requires std::copy_constructible<T>
         : base_(std::move(base)), value_(value) {}
 
-    constexpr explicit take_before_view(V base, T&& value)
-        : base_(std::move(base)), value_(std::move(value)) {}
+    constexpr explicit take_before_view(V base, T&& value) : base_(std::move(base)), value_(std::move(value)) {}
 
     constexpr V base() const&
         requires std::copy_constructible<V>
@@ -121,8 +116,8 @@ template <bool Const>
 class take_before_view<V, T>::sentinel {
     using Base = maybe_const<Const, V>; // exposition only
 
-    std::ranges::sentinel_t<Base> end_ = std::ranges::sentinel_t<Base>(); // exposition only
-    const T* value_ = nullptr; // exposition only, present only if tidy-obj<T> is false
+    std::ranges::sentinel_t<Base> end_   = std::ranges::sentinel_t<Base>(); // exposition only
+    const T*                      value_ = nullptr; // exposition only, present only if tidy-obj<T> is false
 
     template <bool>
     friend class sentinel;
@@ -138,7 +133,7 @@ class take_before_view<V, T>::sentinel {
 
     friend class take_before_view;
 
-public:
+  public:
     sentinel() = default;
 
     constexpr sentinel(sentinel<!Const> s)
@@ -160,10 +155,8 @@ public:
     }
 
     template <bool OtherConst = !Const>
-        requires std::sentinel_for<std::ranges::sentinel_t<Base>,
-                                   std::ranges::iterator_t<maybe_const<OtherConst, V>>>
-    friend constexpr bool operator==(const std::ranges::iterator_t<maybe_const<OtherConst, V>>& x,
-                                     const sentinel& y) {
+        requires std::sentinel_for<std::ranges::sentinel_t<Base>, std::ranges::iterator_t<maybe_const<OtherConst, V>>>
+    friend constexpr bool operator==(const std::ranges::iterator_t<maybe_const<OtherConst, V>>& x, const sentinel& y) {
         if constexpr (tidy_obj<T>) {
             return y.end_ == x || T() == *x;
         } else {
@@ -201,7 +194,7 @@ template <class T>
 class take_before_closure {
     T value_;
 
-public:
+  public:
     constexpr explicit take_before_closure(T value) : value_(std::move(value)) {}
 
     template <std::ranges::viewable_range R>
@@ -231,14 +224,12 @@ struct take_before_fn {
     // Overload 2: input_iterator (not range)
     template <std::input_iterator I, typename T>
         requires(!std::ranges::range<I>) && requires {
-            beman::take_before::take_before_view(
-                std::ranges::subrange(std::declval<I>(), std::unreachable_sentinel),
-                std::declval<T>());
+            beman::take_before::take_before_view(std::ranges::subrange(std::declval<I>(), std::unreachable_sentinel),
+                                                 std::declval<T>());
         }
     constexpr auto operator()(I i, T&& value) const {
-        return beman::take_before::take_before_view(
-            std::ranges::subrange(i, std::unreachable_sentinel),
-            std::forward<T>(value));
+        return beman::take_before::take_before_view(std::ranges::subrange(i, std::unreachable_sentinel),
+                                                    std::forward<T>(value));
     }
 
     // Overload 3: single argument for pipe operator

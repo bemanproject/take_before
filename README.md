@@ -33,7 +33,7 @@ namespace beman = beman::take_before;
 
 int main() {
     std::vector<int> v = {1, 2, 3, 4, 5};
-    
+
     // Take elements before the first occurrence of 3
     for (int i : v | beman::views::take_before(3)) {
         std::cout << i << ' ';  // prints: 1 2
@@ -51,7 +51,7 @@ namespace beman = beman::take_before;
 
 int main() {
     const char* one_two = "One?Two";
-    
+
     for (auto c : beman::views::take_before(one_two, '?')) {
         std::cout << c;  // prints: One
     }
@@ -70,7 +70,7 @@ namespace beman = beman::take_before;
 int main() {
     std::vector<int> v = {10, 20, 30, 40};
     auto result = beman::views::take_before(v, 30);
-    
+
     // result contains: {10, 20}
 }
 ```
@@ -86,8 +86,8 @@ namespace beman = beman::take_before;
 
 int main() {
     std::vector<int> v = {1, 2, 3, 4, 5};
-    
-    auto result = v 
+
+    auto result = v
         | std::views::transform([](int x) { return x * 2; })
         | beman::views::take_before(6);  // {2, 4}
 }
@@ -185,7 +185,7 @@ namespace beman::take_before::views {
 ```cpp
 template<std::ranges::view V, std::move_constructible T>
     requires std::ranges::input_range<V> && std::is_object_v<T> &&
-             std::indirect_binary_predicate<std::ranges::equal_to, 
+             std::indirect_binary_predicate<std::ranges::equal_to,
                                             std::ranges::iterator_t<V>, const T*>
 class take_before_view;
 ```
