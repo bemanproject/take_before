@@ -8,6 +8,12 @@ on:
     branches:
       - main
 
+permissions:
+  checks: write
+  issues: write
+  pull-requests: write
+  contents: read
+
 jobs:
   pre-commit:
     uses: bemanproject/infra-workflows/.github/workflows/reusable-beman-pre-commit.yml@1.1.0
