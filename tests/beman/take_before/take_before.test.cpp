@@ -534,8 +534,8 @@ TEST(TakeBeforeTest, with_array) {
 
 // --- Default Constructor ---
 
-// std::ranges::owning_view is not available in GCC 11
-#if defined(__cpp_lib_ranges_owning_view) || (defined(__GLIBCXX__) && __GLIBCXX__ >= 20220421)
+// std::ranges::owning_view is not available in GCC 11 (added in GCC 12)
+#if defined(__cpp_lib_ranges_owning_view) || (defined(__GNUC__) && !defined(__clang__) && __GNUC__ >= 12) || defined(__clang__) || defined(_MSC_VER)
 TEST(TakeBeforeTest, default_constructible_concepts) {
     // ref_view is NOT default_initializable (requires a reference)
     // but take_before_view with owning_view should work
