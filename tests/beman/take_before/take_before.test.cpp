@@ -534,6 +534,8 @@ TEST(TakeBeforeTest, with_array) {
 
 // --- Default Constructor ---
 
+// std::ranges::owning_view is not available in GCC 11
+#if defined(__cpp_lib_ranges_owning_view) || (defined(__GLIBCXX__) && __GLIBCXX__ >= 20220421)
 TEST(TakeBeforeTest, default_constructible_concepts) {
     // ref_view is NOT default_initializable (requires a reference)
     // but take_before_view with owning_view should work
@@ -547,6 +549,7 @@ TEST(TakeBeforeTest, default_constructible_concepts) {
     tb::take_before_view<OwningView, int> view;
     (void)view;  // Suppress unused warning
 }
+#endif
 
 // --- Paper Example: views::take_before(one_two, '?') ---
 

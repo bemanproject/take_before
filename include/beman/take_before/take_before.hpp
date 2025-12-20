@@ -252,8 +252,4 @@ inline constexpr take_before_fn take_before;
 
 } // namespace beman::take_before::views
 
-namespace beman::take_before {
-namespace views = beman::take_before::views;
-}
-
 #endif // BEMAN_TAKE_BEFORE_TAKE_BEFORE_HPP

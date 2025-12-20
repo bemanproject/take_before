@@ -49,14 +49,14 @@ jobs:
                     }
                   ]
                 },
-                { "cxxversions": ["c++23", "c++20", "c++17"],
+                { "cxxversions": ["c++23", "c++20"],
                   "tests": [{ "stdlibs": ["libstdc++"], "tests": ["Release.Default"]}]
                 }
               ]
             },
             { "versions": ["14", "13"],
               "tests": [
-                { "cxxversions": ["c++26", "c++23", "c++20", "c++17"],
+                { "cxxversions": ["c++26", "c++23", "c++20"],
                   "tests": [{ "stdlibs": ["libstdc++"], "tests": ["Release.Default"]}]
                 }
               ]
@@ -64,7 +64,7 @@ jobs:
             {
               "versions": ["12", "11"],
               "tests": [
-                { "cxxversions": ["c++23", "c++20", "c++17"],
+                { "cxxversions": ["c++23", "c++20"],
                   "tests": [{ "stdlibs": ["libstdc++"], "tests": ["Release.Default"]}]
                 }
               ]
@@ -83,7 +83,7 @@ jobs:
                     }
                   ]
                 },
-                { "cxxversions": ["c++23", "c++20", "c++17"],
+                { "cxxversions": ["c++23", "c++20"],
                   "tests": [
                     {"stdlibs": ["libstdc++", "libc++"], "tests": ["Release.Default"]}
                   ]
@@ -92,7 +92,7 @@ jobs:
             },
             { "versions": ["20", "19", "18"],
               "tests": [
-                { "cxxversions": ["c++26", "c++23", "c++20", "c++17"],
+                { "cxxversions": ["c++26", "c++23", "c++20"],
                   "tests": [
                     {"stdlibs": ["libstdc++", "libc++"], "tests": ["Release.Default"]}
                   ]
@@ -101,10 +101,10 @@ jobs:
             },
             { "versions": ["17"],
               "tests": [
-                { "cxxversions": ["c++26", "c++23", "c++20", "c++17"],
+                { "cxxversions": ["c++26", "c++23", "c++20"],
                   "tests": [{"stdlibs": ["libc++"], "tests": ["Release.Default"]}]
                 },
-                { "cxxversions": ["c++20", "c++17"],
+                { "cxxversions": ["c++20"],
                   "tests": [{"stdlibs": ["libstdc++"], "tests": ["Release.Default"]}]
                 }
               ]
@@ -113,7 +113,7 @@ jobs:
           "appleclang": [
             { "versions": ["latest"],
               "tests": [
-                { "cxxversions": ["c++26", "c++23", "c++20", "c++17"],
+                { "cxxversions": ["c++26", "c++23", "c++20"],
                   "tests": [{ "stdlibs": ["libc++"], "tests": ["Release.Default"]}]
                 }
               ]
