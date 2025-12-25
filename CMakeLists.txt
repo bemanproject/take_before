@@ -31,7 +31,6 @@ target_sources(
                  FILE_SET HEADERS
                  BASE_DIRS include
                  FILES include/beman/take_before/take_before.hpp
-                       include/beman/take_before/beman.take_before-config.cmake.in
     )
 
 add_library(beman::take_before ALIAS beman.take_before)
