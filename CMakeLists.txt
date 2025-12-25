@@ -34,6 +34,7 @@ target_sources(
     )
 
 add_library(beman::take_before ALIAS beman.take_before)
+set_target_properties(beman.take_before PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
 
 set(CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/infra/cmake)
 
