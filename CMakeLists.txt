@@ -31,12 +31,16 @@ target_sources(
                  FILE_SET HEADERS
                  BASE_DIRS include
                  FILES include/beman/take_before/take_before.hpp
+                       include/beman/take_before/beman.take_before-config.cmake.in
     )
 
 add_library(beman::take_before ALIAS beman.take_before)
 
+set(CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/infra/cmake)
 
-#add_subdirectory(src/beman/take_before)
+
+find_package(beman-install-library REQUIRED)
+beman_install_library(beman.take_before)
 
 if(BEMAN_TAKE_BEFORE_BUILD_TESTS)
   enable_testing()
