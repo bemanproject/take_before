@@ -12,12 +12,8 @@
 #include <utility>
 
 // clang-format off
-#if defined(_MSVC_LANG)
-  #if _MSVC_LANG < 202002L
-    #error "C++20 or later is required"
-  #endif
-#elif __cplusplus < 202002L
-  #error "C++20 or later is required"
+#if __cpp_concepts > 202002L
+   #error "C++20 concepts is required"
 #endif
 // clang-format on
 
