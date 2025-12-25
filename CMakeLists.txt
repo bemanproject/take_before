@@ -9,6 +9,8 @@ project(
     VERSION 0.0.1
 )
 
+# gersemi: off
+
 # [CMAKE.SKIP_TESTS]
 option(
     BEMAN_TAKE_BEFORE_BUILD_TESTS

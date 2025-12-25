@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
+# gersemi: off
+
 set(ALL_EXAMPLES take_before_direct_usage)
 
 message("Examples to be built: ${ALL_EXAMPLES}")
