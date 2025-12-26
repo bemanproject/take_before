@@ -1,14 +1,15 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.28...4.2)
 
 project(
-    beman.take_before # CMake Project Name, which is also the name of the top-level
-    # targets (e.g., library, executable, etc.).
-    DESCRIPTION "A Beman Library for take_before"
+    beman.take_before
+    DESCRIPTION "take_before_view"
     LANGUAGES CXX
-    VERSION 2.2.1
+    VERSION 0.0.1
 )
+
+# gersemi: off
 
 # [CMAKE.SKIP_TESTS]
 option(
@@ -24,12 +25,28 @@ option(
     ${PROJECT_IS_TOP_LEVEL}
 )
 
-include(CTest)
 
-add_subdirectory(src/beman/take_before)
+add_library(beman.take_before INTERFACE)
+target_sources(
+           beman.take_before
+               INTERFACE
+                 FILE_SET HEADERS
+                 BASE_DIRS include
+                 FILES include/beman/take_before/take_before.hpp
+    )
+
+add_library(beman::take_before ALIAS beman.take_before)
+set_target_properties(beman.take_before PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+
+set(CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/infra/cmake)
+
+
+find_package(beman-install-library REQUIRED)
+beman_install_library(beman.take_before)
 
 if(BEMAN_TAKE_BEFORE_BUILD_TESTS)
-    add_subdirectory(tests/beman/take_before)
+  enable_testing()
+  add_subdirectory(tests/beman/take_before)
 endif()
 
 if(BEMAN_TAKE_BEFORE_BUILD_EXAMPLES)

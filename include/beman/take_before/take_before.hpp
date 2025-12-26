@@ -11,6 +11,12 @@
 #include <type_traits>
 #include <utility>
 
+// clang-format off
+#if __cpp_concepts > 202002L
+   #error "C++20 concepts is required"
+#endif
+// clang-format on
+
 namespace beman::take_before {
 
 // ============================================================================
