@@ -1,4 +1,4 @@
-# beman::take_before
+# `beman::take_before`
 
 <!--
 SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
@@ -105,7 +105,7 @@ Full runnable examples can be found in [`examples/`](examples/).
 This project requires:
 
 * A C++ compiler that supports **C++20** or greater
-* CMake 3.25 or later
+* CMake 3.28 or later
 * (Test Only) GoogleTest
 
 You can disable building tests by setting CMake option `BEMAN_TAKE_BEFORE_BUILD_TESTS` to `OFF`.
@@ -207,5 +207,5 @@ When the delimiter type satisfies `tidy_obj` and the underlying range is borrowe
 
 ## References
 
-- [P3220R2: views::take_before](https://wg21.link/P3220R2)
+- [P3220R2: views::take before](https://wg21.link/P3220R2)
 - [P2760: Tier 1 Ranges Adaptors](https://wg21.link/P2760)
