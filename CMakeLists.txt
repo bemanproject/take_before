@@ -25,28 +25,26 @@ option(
     ${PROJECT_IS_TOP_LEVEL}
 )
 
-
 add_library(beman.take_before INTERFACE)
 target_sources(
-           beman.take_before
-               INTERFACE
-                 FILE_SET HEADERS
-                 BASE_DIRS include
-                 FILES include/beman/take_before/take_before.hpp
-    )
+    beman.take_before
+    INTERFACE
+        FILE_SET HEADERS
+            BASE_DIRS include
+            FILES include/beman/take_before/take_before.hpp
+)
 
 add_library(beman::take_before ALIAS beman.take_before)
 set_target_properties(beman.take_before PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
 
-set(CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/infra/cmake)
+# gersemi: on
 
-
-find_package(beman-install-library REQUIRED)
+include(infra/cmake/beman-install-library-config.cmake)
 beman_install_library(beman.take_before)
 
 if(BEMAN_TAKE_BEFORE_BUILD_TESTS)
-  enable_testing()
-  add_subdirectory(tests/beman/take_before)
+    enable_testing()
+    add_subdirectory(tests/beman/take_before)
 endif()
 
 if(BEMAN_TAKE_BEFORE_BUILD_EXAMPLES)
