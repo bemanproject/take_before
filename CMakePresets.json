@@ -120,7 +120,11 @@
     {
       "name": "_root-build",
       "hidden": true,
-      "jobs": 0
+      "jobs": 0,
+      "targets": [
+        "all",
+        "all_verify_interface_header_sets"
+      ]
     },
     {
       "name": "gcc-debug",
