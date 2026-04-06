@@ -1,15 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-cmake_minimum_required(VERSION 3.28...4.2)
+cmake_minimum_required(VERSION 3.30...4.3)
 
 project(
-    beman.take_before
+    beman.take_before # CMake Project Name, which is also the name of the top-level
+    # targets (e.g., library, executable, etc.).
     DESCRIPTION "take_before_view"
     LANGUAGES CXX
-    VERSION 0.0.1
+    VERSION 0.1.0
 )
-
-# gersemi: off
 
 # [CMAKE.SKIP_TESTS]
 option(
@@ -25,22 +24,25 @@ option(
     ${PROJECT_IS_TOP_LEVEL}
 )
 
+# for find of beman-install-library
+include(infra/cmake/beman-install-library.cmake)
+
 add_library(beman.take_before INTERFACE)
+add_library(beman::take_before ALIAS beman.take_before)
+
 target_sources(
     beman.take_before
-    INTERFACE
-        FILE_SET HEADERS
-            BASE_DIRS include
-            FILES include/beman/take_before/take_before.hpp
+    PUBLIC FILE_SET HEADERS BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
-add_library(beman::take_before ALIAS beman.take_before)
-set_target_properties(beman.take_before PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+set_target_properties(
+    beman.take_before
+    PROPERTIES VERIFY_INTERFACE_HEADER_SETS ${PROJECT_IS_TOP_LEVEL}
+)
 
-# gersemi: on
+add_subdirectory(include/beman/take_before)
 
-include(infra/cmake/beman-install-library-config.cmake)
-beman_install_library(beman.take_before)
+beman_install_library(beman.take_before TARGETS beman.take_before)
 
 if(BEMAN_TAKE_BEFORE_BUILD_TESTS)
     enable_testing()

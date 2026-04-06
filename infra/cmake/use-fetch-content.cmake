@@ -2,184 +2,196 @@ cmake_minimum_required(VERSION 3.24)
 
 include(FetchContent)
 
-if(NOT BEMAN_TAKE_BEFORE_LOCKFILE)
-    set(BEMAN_TAKE_BEFORE_LOCKFILE
+if(NOT BEMAN_EXEMPLAR_LOCKFILE)
+    set(BEMAN_EXEMPLAR_LOCKFILE
         "lockfile.json"
         CACHE FILEPATH
-        "Path to the dependency lockfile for Beman Take Before."
+        "Path to the dependency lockfile for the Beman Exemplar."
     )
 endif()
 
-set(BemanTakeBefore_projectDir "${CMAKE_CURRENT_LIST_DIR}/../..")
-message(TRACE "BemanTakeBefore_projectDir=\"${BemanTakeBefore_projectDir}\"")
+set(BemanExemplar_projectDir "${CMAKE_CURRENT_LIST_DIR}/../..")
+message(TRACE "BemanExemplar_projectDir=\"${BemanExemplar_projectDir}\"")
 
-message(TRACE "BEMAN_TAKE_BEFORE_LOCKFILE=\"${BEMAN_TAKE_BEFORE_LOCKFILE}\"")
+message(TRACE "BEMAN_EXEMPLAR_LOCKFILE=\"${BEMAN_EXEMPLAR_LOCKFILE}\"")
 file(
     REAL_PATH
-    "${BEMAN_TAKE_BEFORE_LOCKFILE}"
-    BemanTakeBefore_lockfile
-    BASE_DIRECTORY "${BemanTakeBefore_projectDir}"
+    "${BEMAN_EXEMPLAR_LOCKFILE}"
+    BemanExemplar_lockfile
+    BASE_DIRECTORY "${BemanExemplar_projectDir}"
     EXPAND_TILDE
 )
-message(DEBUG "Using lockfile: \"${BemanTakeBefore_lockfile}\"")
+message(DEBUG "Using lockfile: \"${BemanExemplar_lockfile}\"")
 
 # Force CMake to reconfigure the project if the lockfile changes
 set_property(
-    DIRECTORY "${BemanTakeBefore_projectDir}"
+    DIRECTORY "${BemanExemplar_projectDir}"
     APPEND
-    PROPERTY CMAKE_CONFIGURE_DEPENDS "${BemanTakeBefore_lockfile}"
+    PROPERTY CMAKE_CONFIGURE_DEPENDS "${BemanExemplar_lockfile}"
 )
 
 # For more on the protocol for this function, see:
 # https://cmake.org/cmake/help/latest/command/cmake_language.html#provider-commands
-function(BemanTakeBefore_provideDependency method package_name)
+function(BemanExemplar_provideDependency method package_name)
     # Read the lockfile
-    file(READ "${BemanTakeBefore_lockfile}" BemanTakeBefore_rootObj)
+    file(READ "${BemanExemplar_lockfile}" BemanExemplar_rootObj)
 
-    # Get the "dependencies" field and store it in BemanTakeBefore_dependenciesObj
+    # Get the "dependencies" field and store it in BemanExemplar_dependenciesObj
     string(
         JSON
-        BemanTakeBefore_dependenciesObj
-        ERROR_VARIABLE BemanTakeBefore_error
-        GET "${BemanTakeBefore_rootObj}"
+        BemanExemplar_dependenciesObj
+        ERROR_VARIABLE BemanExemplar_error
+        GET "${BemanExemplar_rootObj}"
         "dependencies"
     )
-    if(BemanTakeBefore_error)
-        message(FATAL_ERROR "${BemanTakeBefore_lockfile}: ${BemanTakeBefore_error}")
+    if(BemanExemplar_error)
+        message(FATAL_ERROR "${BemanExemplar_lockfile}: ${BemanExemplar_error}")
     endif()
 
-    # Get the length of the libraries array and store it in BemanTakeBefore_dependenciesObj
+    # Get the length of the libraries array and store it in BemanExemplar_dependenciesObj
     string(
         JSON
-        BemanTakeBefore_numDependencies
-        ERROR_VARIABLE BemanTakeBefore_error
-        LENGTH "${BemanTakeBefore_dependenciesObj}"
+        BemanExemplar_numDependencies
+        ERROR_VARIABLE BemanExemplar_error
+        LENGTH "${BemanExemplar_dependenciesObj}"
     )
-    if(BemanTakeBefore_error)
-        message(FATAL_ERROR "${BemanTakeBefore_lockfile}: ${BemanTakeBefore_error}")
+    if(BemanExemplar_error)
+        message(FATAL_ERROR "${BemanExemplar_lockfile}: ${BemanExemplar_error}")
     endif()
 
-    if(BemanTakeBefore_numDependencies EQUAL 0)
+    if(BemanExemplar_numDependencies EQUAL 0)
         return()
     endif()
 
     # Loop over each dependency object
-    math(EXPR BemanTakeBefore_maxIndex "${BemanTakeBefore_numDependencies} - 1")
-    foreach(BemanTakeBefore_index RANGE "${BemanTakeBefore_maxIndex}")
-        set(BemanTakeBefore_errorPrefix
-            "${BemanTakeBefore_lockfile}, dependency ${BemanTakeBefore_index}"
+    math(EXPR BemanExemplar_maxIndex "${BemanExemplar_numDependencies} - 1")
+    foreach(BemanExemplar_index RANGE "${BemanExemplar_maxIndex}")
+        set(BemanExemplar_errorPrefix
+            "${BemanExemplar_lockfile}, dependency ${BemanExemplar_index}"
         )
 
-        # Get the dependency object at BemanTakeBefore_index
-        # and store it in BemanTakeBefore_depObj
+        # Get the dependency object at BemanExemplar_index
+        # and store it in BemanExemplar_depObj
         string(
             JSON
-            BemanTakeBefore_depObj
-            ERROR_VARIABLE BemanTakeBefore_error
-            GET "${BemanTakeBefore_dependenciesObj}"
-            "${BemanTakeBefore_index}"
+            BemanExemplar_depObj
+            ERROR_VARIABLE BemanExemplar_error
+            GET "${BemanExemplar_dependenciesObj}"
+            "${BemanExemplar_index}"
         )
-        if(BemanTakeBefore_error)
+        if(BemanExemplar_error)
             message(
                 FATAL_ERROR
-                "${BemanTakeBefore_errorPrefix}: ${BemanTakeBefore_error}"
+                "${BemanExemplar_errorPrefix}: ${BemanExemplar_error}"
             )
         endif()
 
-        # Get the "name" field and store it in BemanTakeBefore_name
+        # Get the "name" field and store it in BemanExemplar_name
         string(
             JSON
-            BemanTakeBefore_name
-            ERROR_VARIABLE BemanTakeBefore_error
-            GET "${BemanTakeBefore_depObj}"
+            BemanExemplar_name
+            ERROR_VARIABLE BemanExemplar_error
+            GET "${BemanExemplar_depObj}"
             "name"
         )
-        if(BemanTakeBefore_error)
+        if(BemanExemplar_error)
             message(
                 FATAL_ERROR
-                "${BemanTakeBefore_errorPrefix}: ${BemanTakeBefore_error}"
+                "${BemanExemplar_errorPrefix}: ${BemanExemplar_error}"
             )
         endif()
 
-        # Get the "package_name" field and store it in BemanTakeBefore_pkgName
+        # Get the "package_name" field and store it in BemanExemplar_pkgName
         string(
             JSON
-            BemanTakeBefore_pkgName
-            ERROR_VARIABLE BemanTakeBefore_error
-            GET "${BemanTakeBefore_depObj}"
+            BemanExemplar_pkgName
+            ERROR_VARIABLE BemanExemplar_error
+            GET "${BemanExemplar_depObj}"
             "package_name"
         )
-        if(BemanTakeBefore_error)
+        if(BemanExemplar_error)
             message(
                 FATAL_ERROR
-                "${BemanTakeBefore_errorPrefix}: ${BemanTakeBefore_error}"
+                "${BemanExemplar_errorPrefix}: ${BemanExemplar_error}"
             )
         endif()
 
-        # Get the "git_repository" field and store it in BemanTakeBefore_repo
+        # Get the "git_repository" field and store it in BemanExemplar_repo
         string(
             JSON
-            BemanTakeBefore_repo
-            ERROR_VARIABLE BemanTakeBefore_error
-            GET "${BemanTakeBefore_depObj}"
+            BemanExemplar_repo
+            ERROR_VARIABLE BemanExemplar_error
+            GET "${BemanExemplar_depObj}"
             "git_repository"
         )
-        if(BemanTakeBefore_error)
+        if(BemanExemplar_error)
             message(
                 FATAL_ERROR
-                "${BemanTakeBefore_errorPrefix}: ${BemanTakeBefore_error}"
+                "${BemanExemplar_errorPrefix}: ${BemanExemplar_error}"
             )
         endif()
 
-        # Get the "git_tag" field and store it in BemanTakeBefore_tag
+        # Get the "git_tag" field and store it in BemanExemplar_tag
         string(
             JSON
-            BemanTakeBefore_tag
-            ERROR_VARIABLE BemanTakeBefore_error
-            GET "${BemanTakeBefore_depObj}"
+            BemanExemplar_tag
+            ERROR_VARIABLE BemanExemplar_error
+            GET "${BemanExemplar_depObj}"
             "git_tag"
         )
-        if(BemanTakeBefore_error)
+        if(BemanExemplar_error)
             message(
                 FATAL_ERROR
-                "${BemanTakeBefore_errorPrefix}: ${BemanTakeBefore_error}"
+                "${BemanExemplar_errorPrefix}: ${BemanExemplar_error}"
             )
         endif()
 
         if(method STREQUAL "FIND_PACKAGE")
-            if(package_name STREQUAL BemanTakeBefore_pkgName)
+            if(package_name STREQUAL BemanExemplar_pkgName)
                 string(
                     APPEND
-                    BemanTakeBefore_debug
-                    "Redirecting find_package calls for ${BemanTakeBefore_pkgName} "
+                    BemanExemplar_debug
+                    "Redirecting find_package calls for ${BemanExemplar_pkgName} "
                     "to FetchContent logic.\n"
                 )
                 string(
                     APPEND
-                    BemanTakeBefore_debug
-                    "Fetching ${BemanTakeBefore_repo} at "
-                    "${BemanTakeBefore_tag} according to ${BemanTakeBefore_lockfile}."
+                    BemanExemplar_debug
+                    "Fetching ${BemanExemplar_repo} at "
+                    "${BemanExemplar_tag} according to ${BemanExemplar_lockfile}."
                 )
-                message(DEBUG "${BemanTakeBefore_debug}")
+                message(DEBUG "${BemanExemplar_debug}")
                 FetchContent_Declare(
-                    "${BemanTakeBefore_name}"
-                    GIT_REPOSITORY "${BemanTakeBefore_repo}"
-                    GIT_TAG "${BemanTakeBefore_tag}"
+                    "${BemanExemplar_name}"
+                    GIT_REPOSITORY "${BemanExemplar_repo}"
+                    GIT_TAG "${BemanExemplar_tag}"
                     EXCLUDE_FROM_ALL
                 )
                 set(INSTALL_GTEST OFF) # Disable GoogleTest installation
-                FetchContent_MakeAvailable("${BemanTakeBefore_name}")
+                FetchContent_MakeAvailable("${BemanExemplar_name}")
+
+                # Catch2's CTest integration module isn't on CMAKE_MODULE_PATH
+                # when brought in via FetchContent. Add it so that
+                # `include(Catch)` works.
+                if(BemanExemplar_pkgName STREQUAL "Catch2")
+                    list(
+                        APPEND
+                        CMAKE_MODULE_PATH
+                        "${${BemanExemplar_name}_SOURCE_DIR}/extras"
+                    )
+                    set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" PARENT_SCOPE)
+                endif()
 
                 # Important! <PackageName>_FOUND tells CMake that `find_package` is
                 # not needed for this package anymore
-                set("${BemanTakeBefore_pkgName}_FOUND" TRUE PARENT_SCOPE)
+                set("${BemanExemplar_pkgName}_FOUND" TRUE PARENT_SCOPE)
             endif()
         endif()
     endforeach()
 endfunction()
 
 cmake_language(
-    SET_DEPENDENCY_PROVIDER BemanTakeBefore_provideDependency
+    SET_DEPENDENCY_PROVIDER BemanExemplar_provideDependency
     SUPPORTED_METHODS FIND_PACKAGE
 )
 

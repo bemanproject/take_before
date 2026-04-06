@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-find_package(GTest QUIET)
+find_package(GTest REQUIRED)
 
-add_executable(beman_take_before.test)
-target_sources(beman_take_before.test PRIVATE take_before.test.cpp)
+add_executable(beman.take_before.tests)
+target_sources(beman.take_before.tests PRIVATE take_before.test.cpp)
 target_link_libraries(
-    beman_take_before.test
-    PRIVATE beman::take_before GTest::gtest GTest::gtest_main
+    beman.take_before.tests
+    PRIVATE beman::take_before GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(beman_take_before.test)
+gtest_discover_tests(beman.take_before.tests)

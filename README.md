@@ -4,12 +4,12 @@
 SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 -->
 
-![Library Status](https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg)
-[![Continuous Integration Tests](https://github.com/bemanproject/take_before/actions/workflows/ci_tests.yml/badge.svg)](https://github.com/bemanproject/take_before/actions/workflows/ci_tests.yml)
-[![Lint Check (pre-commit)](https://github.com/bemanproject/take_before/actions/workflows/pre-commit-check.yml/badge.svg)](https://github.com/bemanproject/take_before/actions/workflows/pre-commit-check.yml)
-![Standard Target](https://github.com/bemanproject/beman/blob/main/images/badges/cpp29.svg)
+<!-- markdownlint-disable-next-line line-length -->
+![Library Status](https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg) ![Continuous Integration Tests](https://github.com/bemanproject/take_before/actions/workflows/ci_tests.yml/badge.svg) ![Lint Check (pre-commit)](https://github.com/bemanproject/take_before/actions/workflows/pre-commit-check.yml/badge.svg) [![Coverage](https://coveralls.io/repos/github/bemanproject/take_before/badge.svg?branch=main)](https://coveralls.io/github/bemanproject/take_before?branch=main) ![Standard Target](https://github.com/bemanproject/beman/blob/main/images/badges/cpp29.svg)
 
-`beman.take_before` is a C++ library implementing the `views::take_before` range adaptor as proposed in [P3220R2](https://wg21.link/P3220R2), conforming to [The Beman Standard](https://github.com/bemanproject/beman/blob/main/docs/beman_standard.md).
+`beman.take_before` is a C++ library implementing the `views::take_before` range adaptor as proposed in
+[P3220R2](https://wg21.link/P3220R2), conforming to
+[The Beman Standard](https://github.com/bemanproject/beman/blob/main/docs/beman_standard.md).
 
 **Implements**: `views::take_before` range adaptor.
 
@@ -17,7 +17,9 @@ SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
 ## Overview
 
-`views::take_before` accepts a range (or iterator) and a specified value and produces a range ending with the first occurrence of that value. It's particularly useful for constructing null-terminated byte string (NTBS) ranges without calculating their actual length.
+`views::take_before` accepts a range (or iterator) and a specified value and produces a range ending with the
+first occurrence of that value. It's particularly useful for constructing null-terminated byte string (NTBS)
+ranges without calculating their actual length.
 
 ## License
 
@@ -102,13 +104,14 @@ Full runnable examples can be found in [`examples/`](examples/).
 
 ### Build Environment
 
-This project requires:
+This project requires at least the following to build:
 
-* A C++ compiler that supports **C++20** or greater
-* CMake 3.28 or later
+* A C++ compiler that conforms to the C++20 standard or greater
+* CMake 3.30 or later
 * (Test Only) GoogleTest
 
-You can disable building tests by setting CMake option `BEMAN_TAKE_BEFORE_BUILD_TESTS` to `OFF`.
+You can disable building tests by setting CMake option `BEMAN_TAKE_BEFORE_BUILD_TESTS` to
+`OFF` when configuring the project.
 
 ### Supported Platforms
 
@@ -124,46 +127,92 @@ You can disable building tests by setting CMake option `BEMAN_TAKE_BEFORE_BUILD_
 
 ## Development
 
-### Configure and Build Using CMake Presets
+See the [Contributing Guidelines](CONTRIBUTING.md).
 
-```shell
-cmake --workflow --preset gcc-debug
-```
+## Integrate beman.take_before into your project
 
-Available presets include `gcc-debug`, `gcc-release`, `clang-debug`, `clang-release`, etc.
+### Build
 
-### Configure and Build Manually
+You can build take_before using a CMake workflow preset:
 
 ```bash
-cmake -B build -S . -DCMAKE_CXX_STANDARD=20
-cmake --build build
-ctest --test-dir build
+cmake --workflow --preset gcc-release
 ```
 
-### Fetching GTest from GitHub
+To list available workflow presets, you can invoke:
 
-```shell
-cmake -B build -S . \
-    -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=./infra/cmake/use-fetch-content.cmake \
-    -DCMAKE_CXX_STANDARD=20
-cmake --build build --target all
-ctest --test-dir build
+```bash
+cmake --list-presets=workflow
 ```
 
-## Integration
+For details on building beman.take_before without using a CMake preset, refer to the
+[Contributing Guidelines](CONTRIBUTING.md).
 
-### CMake
+### Installation
+
+To install beman.take_before globally after building with the `gcc-release` preset, you can
+run:
+
+```bash
+sudo cmake --install build/gcc-release
+```
+
+Alternatively, to install to a prefix, for example `/opt/beman`, you can run:
+
+```bash
+sudo cmake --install build/gcc-release --prefix /opt/beman
+```
+
+This will generate the following directory structure:
+
+```txt
+/opt/beman
+├── include
+│   └── beman
+│       └── take_before
+│           ├── take_before.hpp
+│           └── ...
+└── lib
+    └── cmake
+        └── beman.take_before
+            ├── beman.take_before-config-version.cmake
+            ├── beman.take_before-config.cmake
+            └── beman.take_before-targets.cmake
+```
+
+### CMake Configuration
+
+If you installed beman.take_before to a prefix, you can specify that prefix to your CMake
+project using `CMAKE_PREFIX_PATH`; for example, `-DCMAKE_PREFIX_PATH=/opt/beman`.
+
+You need to bring in the `beman.take_before` package to define the `beman::take_before` CMake
+target:
 
 ```cmake
 find_package(beman.take_before REQUIRED)
+```
+
+You will then need to add `beman::take_before` to the link libraries of any libraries or
+executables that include `beman.take_before` headers.
+
+```cmake
 target_link_libraries(yourlib PUBLIC beman::take_before)
 ```
 
-### Include Header
+### Using beman.take_before
 
-```cpp
+To use `beman.take_before` in your C++ project,
+include an appropriate `beman.take_before` header from your source code.
+
+```c++
 #include <beman/take_before/take_before.hpp>
 ```
+
+> [!NOTE]
+>
+> `beman.take_before` headers are to be included with the `beman/take_before/` prefix.
+> Altering include search paths to spell the include target another way (e.g.
+> `#include <take_before.hpp>`) is unsupported.
 
 ## API Reference
 
@@ -176,12 +225,14 @@ namespace beman::take_before::views {
 ```
 
 **Parameters:**
+
 - `range` - A viewable range or input iterator
 - `value` - The delimiter value to search for
 
 **Returns:** A view of elements from the beginning up to (but not including) the first occurrence of `value`.
 
 **Behavior:**
+
 - If `value` is not found, returns the entire range
 - If `value` is the first element, returns an empty range
 - Stops at the **first** occurrence of `value`
@@ -206,7 +257,8 @@ constexpr bool tidy_obj =
     std::is_trivially_destructible_v<T>;
 ```
 
-When the delimiter type satisfies `tidy_obj` and the underlying range is borrowed, `take_before_view` is also a borrowed range.
+When the delimiter type satisfies `tidy_obj` and the underlying range is borrowed, `take_before_view` is also
+a borrowed range.
 
 ## References
 
