@@ -1,0 +1,17 @@
+{
+  "name": "beman-take-before",
+  "version-semver": "@VERSION@",
+  "description": "take_before_view",
+  "homepage": "https://github.com/bemanproject/take_before",
+  "license": "Apache-2.0 WITH LLVM-exception",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
