@@ -4,8 +4,14 @@
 SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 -->
 
-<!-- markdownlint-disable-next-line line-length -->
-![Library Status](https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg) ![Continuous Integration Tests](https://github.com/bemanproject/take_before/actions/workflows/ci_tests.yml/badge.svg) ![Lint Check (pre-commit)](https://github.com/bemanproject/take_before/actions/workflows/pre-commit-check.yml/badge.svg) [![Coverage](https://coveralls.io/repos/github/bemanproject/take_before/badge.svg?branch=main)](https://coveralls.io/github/bemanproject/take_before?branch=main) ![Standard Target](https://github.com/bemanproject/beman/blob/main/images/badges/cpp29.svg) [![Compiler Explorer Example](https://img.shields.io/badge/Try%20it%20on%20Compiler%20Explorer-grey?logo=compilerexplorer&logoColor=67c52a)](https://godbolt.org/z/5675xqrf6)
+<!-- markdownlint-disable line-length -->
+[![Library Status](https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg)](https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model)
+[![Continuous Integration Tests](https://github.com/bemanproject/take_before/actions/workflows/ci_tests.yml/badge.svg)](https://github.com/bemanproject/take_before/actions/workflows/ci_tests.yml)
+[![Lint Check (pre-commit)](https://github.com/bemanproject/take_before/actions/workflows/pre-commit-check.yml/badge.svg)](https://github.com/bemanproject/take_before/actions/workflows/pre-commit-check.yml)
+[![Coverage](https://coveralls.io/repos/github/bemanproject/take_before/badge.svg?branch=main)](https://coveralls.io/github/bemanproject/take_before?branch=main)
+![Standard Target](https://github.com/bemanproject/beman/blob/main/images/badges/cpp29.svg)
+[![Compiler Explorer Example](https://img.shields.io/badge/Try%20it%20on%20Compiler%20Explorer-grey?logo=compilerexplorer&logoColor=67c52a)](https://godbolt.org/z/5675xqrf6)
+<!-- markdownlint-restore -->
 
 `beman.take_before` is a C++ library implementing the `views::take_before` range adaptor as proposed in
 [P3220R2](https://wg21.link/P3220R2), conforming to
@@ -214,12 +220,6 @@ include an appropriate `beman.take_before` header from your source code.
 ```c++
 #include <beman/take_before/take_before.hpp>
 ```
-
-> [!NOTE]
->
-> `beman.take_before` headers are to be included with the `beman/take_before/` prefix.
-> Altering include search paths to spell the include target another way (e.g.
-> `#include <take_before.hpp>`) is unsupported.
 
 ## API Reference
 
