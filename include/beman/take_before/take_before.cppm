@@ -1,7 +1,3 @@
-module;
-
-#include <version>
-
 export module beman.take_before;
 
 import std;
