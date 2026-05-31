@@ -10,10 +10,7 @@ target_link_libraries(
 )
 
 if(BEMAN_TAKE_BEFORE_USE_MODULES)
-    set_target_properties(
-        beman.take_before.tests
-        PROPERTIES CXX_MODULE_STD ON
-    )
+    set_target_properties(beman.take_before.tests PROPERTIES CXX_MODULE_STD ON)
 endif()
 
 include(GoogleTest)

@@ -13,17 +13,17 @@ import beman.take_before;
 
     #if !BEMAN_TAKE_BEFORE_USE_MODULES()
 
-    #include <algorithm>
-    #include <concepts>
-    #include <memory>
-    #include <optional>
-    #include <ranges>
-    #include <type_traits>
-    #include <utility>
+        #include <algorithm>
+        #include <concepts>
+        #include <memory>
+        #include <optional>
+        #include <ranges>
+        #include <type_traits>
+        #include <utility>
 
     #endif // !BEMAN_TAKE_BEFORE_USE_MODULES()
 
-// clang-format off
+    // clang-format off
 #if __cpp_concepts > 202002L
    #error "C++20 concepts is required"
 #endif
@@ -42,8 +42,8 @@ using maybe_const = std::conditional_t<Const, const T, T>;
 // [range.utility.helpers] simple-view - exposition only
 template <class R>
 concept simple_view = std::ranges::view<R> && std::ranges::range<const R> &&
-                      std::same_as<std::ranges::iterator_t<R>, std::ranges::iterator_t<const R>> &&
-                      std::same_as<std::ranges::sentinel_t<R>, std::ranges::sentinel_t<const R>>;
+                      std::same_as<std::ranges::iterator_t<R>, std::ranges::iterator_t<const R> > &&
+                      std::same_as<std::ranges::sentinel_t<R>, std::ranges::sentinel_t<const R> >;
 
 // ============================================================================
 // tidy-obj concept for borrowed range optimization
@@ -65,7 +65,7 @@ using movable_box = std::optional<T>;
 template <std::ranges::view V, std::move_constructible T>
     requires std::ranges::input_range<V> && std::is_object_v<T> &&
              std::indirect_binary_predicate<std::ranges::equal_to, std::ranges::iterator_t<V>, const T*>
-class take_before_view : public std::ranges::view_interface<take_before_view<V, T>> {
+class take_before_view : public std::ranges::view_interface<take_before_view<V, T> > {
     template <bool>
     class sentinel; // exposition only
 
@@ -155,7 +155,7 @@ class take_before_view<V, T>::sentinel {
     sentinel() = default;
 
     constexpr sentinel(sentinel<!Const> s)
-        requires Const && std::convertible_to<std::ranges::sentinel_t<V>, std::ranges::sentinel_t<Base>>
+        requires Const && std::convertible_to<std::ranges::sentinel_t<V>, std::ranges::sentinel_t<Base> >
         : end_(std::move(s.end_)) {
         if constexpr (!tidy_obj<T>) {
             value_ = s.value_;
@@ -173,8 +173,10 @@ class take_before_view<V, T>::sentinel {
     }
 
     template <bool OtherConst = !Const>
-        requires std::sentinel_for<std::ranges::sentinel_t<Base>, std::ranges::iterator_t<maybe_const<OtherConst, V>>>
-    friend constexpr bool operator==(const std::ranges::iterator_t<maybe_const<OtherConst, V>>& x, const sentinel& y) {
+        requires std::sentinel_for<std::ranges::sentinel_t<Base>,
+                                   std::ranges::iterator_t<maybe_const<OtherConst, V> > >
+    friend constexpr bool operator==(const std::ranges::iterator_t<maybe_const<OtherConst, V> >& x,
+                                     const sentinel&                                             y) {
         if constexpr (tidy_obj<T>) {
             return y.end_ == x || T() == *x;
         } else {
@@ -195,7 +197,7 @@ take_before_view(R&&, T) -> take_before_view<std::ranges::views::all_t<R>, T>;
 
 namespace std::ranges {
 template <class V, class T>
-constexpr bool enable_borrowed_range<beman::take_before::take_before_view<V, T>> =
+constexpr bool enable_borrowed_range<beman::take_before::take_before_view<V, T> > =
     enable_borrowed_range<V> && beman::take_before::tidy_obj<T>;
 } // namespace std::ranges
 
@@ -253,14 +255,13 @@ struct take_before_fn {
     // Overload 3: single argument for pipe operator
     template <typename T>
     constexpr auto operator()(T&& value) const {
-        return detail::take_before_closure<std::decay_t<T>>(std::forward<T>(value));
+        return detail::take_before_closure<std::decay_t<T> >(std::forward<T>(value));
     }
 };
 
 inline constexpr take_before_fn take_before;
 
 } // namespace beman::take_before::views
-
 
 #endif // #if BEMAN_TAKE_BEFORE_USE_MODULES() &&
        // !defined(BEMAN_TAKE_BEFORE_INCLUDED_FROM_INTERFACE_UNIT)
