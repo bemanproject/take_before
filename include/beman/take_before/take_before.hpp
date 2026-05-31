@@ -3,13 +3,25 @@
 #ifndef BEMAN_TAKE_BEFORE_TAKE_BEFORE_HPP
 #define BEMAN_TAKE_BEFORE_TAKE_BEFORE_HPP
 
-#include <algorithm>
-#include <concepts>
-#include <memory>
-#include <optional>
-#include <ranges>
-#include <type_traits>
-#include <utility>
+#include <beman/take_before/config.hpp>
+
+#if BEMAN_TAKE_BEFORE_USE_MODULES() && !defined(BEMAN_TAKE_BEFORE_INCLUDED_FROM_INTERFACE_UNIT)
+
+import beman.take_before;
+
+#else
+
+    #if !BEMAN_TAKE_BEFORE_USE_MODULES()
+
+    #include <algorithm>
+    #include <concepts>
+    #include <memory>
+    #include <optional>
+    #include <ranges>
+    #include <type_traits>
+    #include <utility>
+
+    #endif // !BEMAN_TAKE_BEFORE_USE_MODULES()
 
 // clang-format off
 #if __cpp_concepts > 202002L
@@ -248,5 +260,9 @@ struct take_before_fn {
 inline constexpr take_before_fn take_before;
 
 } // namespace beman::take_before::views
+
+
+#endif // #if BEMAN_TAKE_BEFORE_USE_MODULES() &&
+       // !defined(BEMAN_TAKE_BEFORE_INCLUDED_FROM_INTERFACE_UNIT)
 
 #endif // BEMAN_TAKE_BEFORE_TAKE_BEFORE_HPP

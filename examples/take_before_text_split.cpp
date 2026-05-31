@@ -4,13 +4,23 @@
 // This example demonstrates the usage of beman::take_before in a range-printer.
 // Requires: range support (C++20).
 
-#include <beman/take_before/take_before.hpp>
+#include <beman/take_before/config.hpp>
 
-#include <algorithm>
-#include <iostream>
-#include <ranges>
-#include <string>
-#include <vector>
+#if BEMAN_TAKE_BEFORE_USE_MODULES()
+
+import std;
+
+#else
+
+    #include <algorithm>
+    #include <iostream>
+    #include <ranges>
+    #include <string>
+    #include <vector>
+
+#endif
+
+#include <beman/take_before/take_before.hpp>
 
 namespace btb = beman::take_before;
 

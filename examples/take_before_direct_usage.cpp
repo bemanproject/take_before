@@ -1,10 +1,20 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 // examples/take_before_direct_usage.cpp
 
-#include <beman/take_before/take_before.hpp>
+#include <beman/take_before/config.hpp>
 
-#include <iostream>
-#include <vector>
+#if BEMAN_TAKE_BEFORE_USE_MODULES()
+
+import std;
+
+#else
+
+    #include <iostream>
+    #include <vector>
+
+#endif
+
+#include <beman/take_before/take_before.hpp>
 
 namespace btb = beman::take_before;
 

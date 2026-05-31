@@ -12,4 +12,10 @@ foreach(example ${ALL_EXAMPLES})
     add_executable(${example})
     target_sources(${example} PRIVATE ${example}.cpp)
     target_link_libraries(${example} PRIVATE beman::take_before)
+    if(BEMAN_TAKE_BEFORE_USE_MODULES)
+        set_target_properties(
+            ${example}
+            PROPERTIES CXX_MODULE_STD ON
+        )
+    endif()
 endforeach()

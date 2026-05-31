@@ -9,5 +9,12 @@ target_link_libraries(
     PRIVATE beman::take_before GTest::gtest_main
 )
 
+if(BEMAN_TAKE_BEFORE_USE_MODULES)
+    set_target_properties(
+        beman.take_before.tests
+        PROPERTIES CXX_MODULE_STD ON
+    )
+endif()
+
 include(GoogleTest)
 gtest_discover_tests(beman.take_before.tests DISCOVERY_TIMEOUT 60)
